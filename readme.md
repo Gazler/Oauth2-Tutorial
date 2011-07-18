@@ -1,6 +1,6 @@
 #Oauth2 Demo
 
-Recently I had the need to create an Oauth2 authenticated API.  The following is an app in its mode simple form to get you started with creating and testing an Oauth2 powered API, using oauth-plugin, devise and rspec.
+Recently I had the need to create an Oauth2 authenticated API.  The following is an app in its most simple form to get you started with creating and testing an Oauth2 powered API, using oauth-plugin, devise and rspec.
 
 ##Step 1 - the rails app
 
