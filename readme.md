@@ -41,12 +41,13 @@ Might as well do the test database here too
 
     rake db:test:prepare
     
-This will generate some files, there are a few changes required for everything to work.  The first is to delete the file *spec/controllers/oauth_clients_controller_spec* as mentioned in [this commit](https://github.com/pelle/oauth-plugin/commit/6e24ec0ee2f3dc871756b2e8a75fa2181ff504f4).  You should also remove */spec/models/oauth_token_spec.rb* as we are dealing exclusively with oauth2.
+This will generate some files, there are a few changes required for everything to work.  The first is to delete the file *spec/controllers/oauth_clients_controller_spec.rb* as mentioned in [this commit](https://github.com/pelle/oauth-plugin/commit/6e24ec0ee2f3dc871756b2e8a75fa2181ff504f4).  You should also remove */spec/models/oauth_token_spec.rb* as we are dealing exclusively with oauth2.
 The second change is in your *config/routes.rb* file, change the line:
 
     match '/oauth/access_token',  :to => 'oauth#access_token',  :as => :access_token
     
 to
+
     match '/oauth/access_token',  :to => 'oauth#token',  :as => :access_token
     
 You will also need to add the following methods to your *app/controllers/application_controller.rb* to make things work as the oauth-plugin gem required a current_user= method.
@@ -106,6 +107,7 @@ Now create the routes, add the following to your *config/routes.rb* file
     end
     
 You will need a show action in your data controller (*app/controllers/api/v1/data_controller*)
+
     def show
       respond_with ({:super_secret => "oauth_data"})
     end
@@ -115,6 +117,7 @@ You will also need to specify the formats that your controllers responds to in y
     respond_to :json, :xml
     
 You should also specify which methods require oauth, since it is all in this case, also add the following to your base controllers (the interactive flag is the equivalant of oauth_or_login_required, we want oauth only so we disable it. 
+
       oauthenticate :interactive=>false
 
 If we run our test specs again now, they should pass and there you have it, the beginnings of an Oauth2 API.
