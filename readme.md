@@ -94,7 +94,7 @@ When you run rspec on this, it should error, you now need to create your API con
     rails g controller API::V1::Base
     rails g controller API::V1::Data
     
-Change the dataController so it extends API::V1::BaseController
+Change the DataController so it extends API::V1::BaseController
 
     class Api::V1::DataController < Api::V1::BaseController
     end
