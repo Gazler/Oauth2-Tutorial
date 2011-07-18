@@ -53,7 +53,7 @@ to
 You will also need to add the following methods to your *app/controllers/application_controller.rb* to make things work as the oauth-plugin gem required a current_user= method.
 
     def current_user=(user)
-      @current_user = user
+      current_user = user
     end
 
 You need to add the following to your user model:
