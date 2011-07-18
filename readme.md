@@ -21,6 +21,7 @@ The next step is to add the oauth-plugin gem to your Gemfile.  For this demo I w
 You should run *bundle install* to install the oauth-plugin (and rspec.)
 
 If you are using rspec then run:
+
     rails g rspec:install
 
 If you are using devise then you should create your devise install and user.
