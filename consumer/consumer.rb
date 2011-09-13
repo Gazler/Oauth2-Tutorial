@@ -31,7 +31,7 @@ get '/a_different_page' do
 end
   
 def get_response(url)
-  access_token = OAuth2::AccessToken.new(client, "djfiodsjfoi")
+  access_token = OAuth2::AccessToken.new(client, session[:access_token])
   JSON.parse(access_token.get("/api/v1/#{url}")) 
 end
   
