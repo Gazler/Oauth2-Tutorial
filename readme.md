@@ -152,7 +152,7 @@ Copy the following code, replacing the API keys from those of the client:
     enable :sessions
       
     def client  
-      OAuth2::Client.new('6IFWs6UowWqbDa4u1LCbZBpXWs2c8WbnkloWd90u', 'CosAmQVJcXPCFX4nqynCH6p67Yv2znLkOT3KpsiO', :site => 'http://localhost:3000')  
+      OAuth2::Client.new(consumer_key, consumer_secret, :site => 'http://localhost:3000')  
     end  
 
       

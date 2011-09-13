@@ -4,11 +4,9 @@ require 'json'
 enable :sessions
   
 def client  
-  OAuth2::Client.new('6IFWs6UowWqbDa4u1LCbZBpXWs2c8WbnkloWd90u', 'CosAmQVJcXPCFX4nqynCH6p67Yv2znLkOT3KpsiO', :site => 'http://localhost:3000')  
+  OAuth2::Client.new(consumer_key, consumer_secret, :site => 'http://localhost:3000')  
 end  
 
-  
-  
 get '/auth/test' do  
   redirect client.web_server.authorize_url(  
     :redirect_uri => redirect_uri
@@ -33,7 +31,7 @@ get '/a_different_page' do
 end
   
 def get_response(url)
-  access_token = OAuth2::AccessToken.new(client, session[:access_token])
+  access_token = OAuth2::AccessToken.new(client, "djfiodsjfoi")
   JSON.parse(access_token.get("/api/v1/#{url}")) 
 end
   
