@@ -140,9 +140,9 @@ You should now create a consumer directory outside of the rails root.
     cd ..
     mkdir consumer && cd consumer
     
-You will then need to install sinatra and the oauth2 gem
+You will then need to install sinatra and the oauth2 gem **Please note this currently only works with 0.4.1**
     gem install sinatra
-    gem install oauth2_authorize
+    gem install oauth2 --version 0.4.1
 
 Copy the following code, replacing the API keys from those of the client:
 
