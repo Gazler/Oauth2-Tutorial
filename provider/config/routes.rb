@@ -13,15 +13,15 @@ Provider::Application.routes.draw do
 
   match '/oauth',               :to => 'oauth#index',         :as => :oauth
 
-
   devise_for :users
+
+  root :to => "oauth_clients#index"
 
   namespace :api do
     namespace :v1 do
-      match "data" => "data#show"
-    end
-  end
-    
+      match "data"=> "data#show"
+     end
+   end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -72,7 +72,7 @@ Provider::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

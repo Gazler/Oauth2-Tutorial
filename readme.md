@@ -13,7 +13,7 @@ Start by opening up your terminal.  For demonstration purposes I recommend creat
 The next step is to add the oauth-plugin gem to your Gemfile.  For this demo I will also be using devise for authentication.  If you wish to use RSpec as your testing framework, now would be the time to add it.
 
     gem 'devise'
-    gem "oauth-plugin", ">= 0.4.0.pre1"
+    gem "oauth-plugin", ">= 0.4.0.rc2"
     group :test do
         gem 'rspec-rails'
     end
@@ -50,6 +50,10 @@ to
 
     match '/oauth/access_token',  :to => 'oauth#token',  :as => :access_token
     
+Also add the following to router.rb
+
+    root :to => "oauth_clients#index"
+    
 You will also need to add the following methods to your *app/controllers/application_controller.rb* to make things work as the oauth-plugin gem required a current_user= method.
 
     def current_user=(user)
@@ -60,6 +64,10 @@ You need to add the following to your user model:
 
     has_many :client_applications
     has_many :tokens, :class_name=>"OauthToken",:order=>"authorized_at desc",:include=>[:client_application]
+    
+You need to add the following attr_accessor to *app/models/oauth2_token.rb* **and** *app/models/oauth2_verifier.rb*
+
+    attr_accessor :expires_at
 
 The following aliases to *app/controllers/oauth_controller.rb*
 
@@ -69,10 +77,6 @@ The following aliases to *app/controllers/oauth_controller.rb*
 And the following alias to *app/controllers/oauth_clients_controller.rb*
 
     alias :login_required :authenticate_user!
-    
-And the following alias to *app/models/client_application.rb*
-
-    alias :oauth2_token_authorizations :oauth2_verifiers
     
 And finally add the following to *config/application.rb*
 
