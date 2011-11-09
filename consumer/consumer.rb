@@ -31,8 +31,8 @@ get '/a_different_page' do
 end
   
 def get_response(url)
-  access_token = OAuth2::AccessToken.new(client, session[:access_token])
-  JSON.parse(access_token.get("/api/v1/#{url}")) 
+  access_token = OAuth2::AccessToken.new(client, session[:access_token], :param_name => "oauth_token", :header_format => "OAuth %s")
+  p JSON.parse(access_token.get("/api/v1/#{url}").body)
 end
   
 def redirect_uri  

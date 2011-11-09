@@ -1,4 +1,4 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
-gem 'oauth2'
+gem 'oauth2', '~>0.5'
