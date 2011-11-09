@@ -151,6 +151,7 @@ You will then need to install sinatra and the oauth2 gem **Please note this curr
 Copy the following code, replacing the API keys from those of the client:
 
     require 'sinatra'  
+    gem 'oauth2', '=0.4.1'
     require 'oauth2'  
     require 'json'
     enable :sessions
