@@ -6,8 +6,8 @@ Recently I had the need to create an Oauth2 authenticated API.  The following is
 
 I have created screencasts to go along with this tutorial.  This is my first attempt at screencasting, so please drop me a message if you find them useful or if there is anything you think can be improved.  Your feedback is appreciated.
 
- * Provider [ogv format](http://screencasts.gazler.com/provider.ogv) [avi format](http://screencasts.gazler.com/provider.avi)
- * Consumer [ogv format](http://screencasts.gazler.com/consumer.ogv) [avi format](http://screencasts.gazler.com/consumer.avi)
+ * Provider [ogv format](http://gazler.com/screencasts/provider.ogv) [avi format](http://gazler.com/screencasts/provider.avi)
+ * Consumer [ogv format](http://gazler.com/screencasts/consumer.ogv) [avi format](http://gazler.com/screencasts/consumer.avi)
 
 ##Step 1 - the rails app
 
