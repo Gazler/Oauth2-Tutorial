@@ -2,6 +2,13 @@
 
 Recently I had the need to create an Oauth2 authenticated API.  The following is an app in its most simple form to get you started with creating and testing an Oauth2 powered API, using oauth-plugin, devise and rspec.
 
+##Screencasts
+
+I have created screencasts to go along with this tutorial.  This is my first attempt at screencasting, so please drop me a message if you find them useful or if there is anything you think can be improved.  Your feedback is appreciated.
+
+ * Provider [ogv format](http://screencasts.gazler.com/provider.ogv) [avi format](http://screencasts.gazler.com/provider.avi)
+ * Consumer [ogv format](http://screencasts.gazler.com/consumer.ogv) [avi format](http://screencasts.gazler.com/consumer.avi)
+
 ##Step 1 - the rails app
 
 Start by opening up your terminal.  For demonstration purposes I recommend creating a folder called oauth to put both the provider and consumer.
