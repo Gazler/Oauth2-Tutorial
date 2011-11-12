@@ -30,7 +30,7 @@ GEM
     activesupport (3.1.1)
       multi_json (~> 1.0)
     addressable (2.2.6)
-    ansi (1.4.0)
+    ansi (1.4.1)
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)

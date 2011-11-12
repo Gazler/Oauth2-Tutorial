@@ -5,23 +5,25 @@ Provider::Application.routes.draw do
 
   match '/oauth/token',         :to => 'oauth#token',         :as => :token
 
-  match '/oauth/access_token',  :to => 'oauth#token',         :as => :access_token
+  match '/oauth/access_token',  :to => 'oauth#access_token',  :as => :access_token
 
   match '/oauth/request_token', :to => 'oauth#request_token', :as => :request_token
 
   match '/oauth/authorize',     :to => 'oauth#authorize',     :as => :authorize
-
+  
   match '/oauth',               :to => 'oauth#index',         :as => :oauth
 
   devise_for :users
 
   root :to => "oauth_clients#index"
 
+
   namespace :api do
     namespace :v1 do
-      match "data"=> "data#show"
-     end
-   end
+      match "data" => "data#show"
+    end
+  end
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -4,6 +4,7 @@ class OauthToken < ActiveRecord::Base
   validates_uniqueness_of :token
   validates_presence_of :client_application, :token
   before_validation :generate_keys, :on => :create
+  attr_accessor :expires_at
 
   def invalidated?
     invalidated_at != nil

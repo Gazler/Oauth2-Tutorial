@@ -1,6 +1,6 @@
 class Oauth2Verifier < OauthToken
   validates_presence_of :user
-  attr_accessor :state, :expires_at
+  attr_accessor :state
 
   def exchange!(params={})
     OauthToken.transaction do

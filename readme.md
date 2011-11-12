@@ -42,15 +42,7 @@ Might as well do the test database here too
     rake db:test:prepare
     
 This will generate some files, there are a few changes required for everything to work.  The first is to delete the file *spec/controllers/oauth_clients_controller_spec.rb* as mentioned in [this commit](https://github.com/pelle/oauth-plugin/commit/6e24ec0ee2f3dc871756b2e8a75fa2181ff504f4).  You should also remove */spec/models/oauth_token_spec.rb* as we are dealing exclusively with oauth2.
-The second change is in your *config/routes.rb* file, change the line:
-
-    match '/oauth/access_token',  :to => 'oauth#access_token',  :as => :access_token
-    
-to
-
-    match '/oauth/access_token',  :to => 'oauth#token',  :as => :access_token
-    
-Also add the following to router.rb
+The second change is in your *config/routes.rb* file, add:
 
     root :to => "oauth_clients#index"
     
@@ -63,18 +55,13 @@ You will also need to add the following methods to your *app/controllers/applica
 You need to add the following to your user model:
 
     has_many :client_applications
-    has_many :tokens, :class_name=>"OauthToken",:order=>"authorized_at desc",:include=>[:client_application]
+    has_many :tokens, :class_name=>"Oauth2Token",:order=>"authorized_at desc",:include=>[:client_application]
     
-You need to add the following attr_accessor to *app/models/oauth2_token.rb* **and** *app/models/oauth2_verifier.rb*
+You need to add the following attr_accessor to *app/models/oauth_token.rb*
 
     attr_accessor :expires_at
 
-The following aliases to *app/controllers/oauth_controller.rb*
-
-    alias :logged_in? :user_signed_in?
-    alias :login_required :authenticate_user!    
-    
-And the following alias to *app/controllers/oauth_clients_controller.rb*
+The following alias to *app/controllers/oauth_controller.rb* **and** *app/controllers/oauth_clients_controller.rb*
 
     alias :login_required :authenticate_user!
     
@@ -139,63 +126,78 @@ To
 
 You should now start a rails server and navigate to http://localhost:3000/users/sign_up, after signing up go to http://localhost:3000/oauth_clients and create a client.  Please not that your client callback_url must match that of the one passed through in your app.  If you are using the demo sinatra app, it should be **http://localhost:4567/auth/test**
 
+There are a couple things you should change in *views/oauth_clients/index.html.erb* Change the @tokens block to:
+
+     <% @tokens.each do |token|%>
+      <tr>
+        <td><%= link_to token.client_application.name, token.client_application.url %></td>
+        <td><%= token.authorized_at %></td>
+        <td>&nbsp;</td>
+      </tr>
+    <% end %>
+
+And change the @client_applications block to:
+
+    <% @client_applications.each do |client|%>
+      <div>
+        <%= link_to client.name, oauth_client_path(client) %>-
+          <%= link_to 'Edit', edit_oauth_client_path(client) %>
+          <%= link_to 'Delete', oauth_client_path(client), :confirm => "Are you sure?", :method => :delete %>
+      </div>
+    <% end %>
+
 You should now create a consumer directory outside of the rails root.
 
     cd ..
     mkdir consumer && cd consumer
     
-You will then need to install sinatra and the oauth2 gem **Please note this currently only works with 0.4.1**
+You will then need to install sinatra and the oauth2 gem **Please note this requires a version of oauth higher than 0.5 **
     gem install sinatra
-    gem install oauth2 --version 0.4.1
+    gem install oauth2 
 
 Copy the following code, replacing the API keys from those of the client:
 
-    require 'sinatra'  
-    gem 'oauth2', '=0.4.1'
-    require 'oauth2'  
+    require 'sinatra'
+    require 'oauth2'
     require 'json'
     enable :sessions
-      
-    def client  
-      OAuth2::Client.new(consumer_key, consumer_secret, :site => 'http://localhost:3000')  
-    end  
 
-      
-      
-    get '/auth/test' do  
-      redirect client.web_server.authorize_url(  
-        :redirect_uri => redirect_uri
-      )  
-    end  
-      
-    get '/auth/test/callback' do  
-      access_token = client.web_server.get_access_token(params[:code], :redirect_uri => redirect_uri)  
+    def client
+      OAuth2::Client.new(consumer_key, consumer_secret, :site => "http://localhost:3000")
+    end
+
+    get "/auth/test" do
+      redirect client.auth_code.authorize_url(:redirect_uri => redirect_uri)
+    end
+
+    get '/auth/test/callback' do
+      access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
       session[:access_token] = access_token.token
-      @message = JSON.parse(access_token.get('/api/v1/data.json'))
+      @message = "Successfully authenticated with the server"
       erb :success
-    end  
+    end
 
+    get '/yet_another' do
+      @message = get_response('data.json')
+      erb :success
+    end
     get '/another_page' do
       @message = get_response('data.json')
-      erb :different
+      erb :another
     end
 
-    get '/a_different_page' do
-      @message = get_response('data.json')
-      erb :success
-    end
-      
     def get_response(url)
       access_token = OAuth2::AccessToken.new(client, session[:access_token])
-      JSON.parse(access_token.get("/api/v1/#{url}")) 
+      JSON.parse(access_token.get("/api/v1/#{url}").body)
     end
-      
-    def redirect_uri  
-      uri = URI.parse(request.url)  
-      uri.path = '/auth/test/callback'  
+
+
+    def redirect_uri
+      uri = URI.parse(request.url)
+      uri.path = '/auth/test/callback'
       uri.query = nil
       uri.to_s
-    end  
+    end
     
 You can grab the required views from *consumer/views*
 
