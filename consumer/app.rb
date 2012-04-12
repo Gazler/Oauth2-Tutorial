@@ -4,7 +4,7 @@ require 'json'
 enable :sessions
 
 def client
-  OAuth2::Client.new("mTeZFqkCmzc8JnjKXaSww95bFFxhUpp1wwmSi8vG", "a9OMyEdW7JvWThHmmvFcShR9P2dyad3EGuA2ULDh", :site => "http://localhost:3000")
+  OAuth2::Client.new("AbDQemXExwuWGhLHNX4JV2rfkw4g4rV4b57LCxnT", "qzyA6SW5G7yjyn6iJnQeaNh6pqU5jYfHknNnTQRG", :site => "http://localhost:3000")
 end
 
 get "/auth/test" do
@@ -29,6 +29,7 @@ end
 
 def get_response(url)
   access_token = OAuth2::AccessToken.new(client, session[:access_token])
+  p access_token
   JSON.parse(access_token.get("/api/v1/#{url}").body)
 end
 
