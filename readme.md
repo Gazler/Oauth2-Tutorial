@@ -1,3 +1,5 @@
+**This tutorial was written over 2 years ago, while some of the points may still be valid, I now use [Doorkeeper](https://github.com/applicake/doorkeeper) for my OAuth needs.**
+
 #Oauth2 Demo
 
 Recently I had the need to create an Oauth2 authenticated API.  The following is an app in its most simple form to get you started with creating and testing an Oauth2 powered API, using oauth-plugin, devise and rspec.
